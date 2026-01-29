@@ -12,12 +12,10 @@ export default function Products() {
   };
 
   useEffect(() => {
-    // async function inside useEffect
     const fetchProducts = async () => {
       try {
         const response = await axios.get('https://fakestoreapi.com/products');
         setProductsList(response.data);
-        console.log(response.data); 
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -25,33 +23,28 @@ export default function Products() {
       }
     };
 
-    fetchProducts(); // call the async function
-  }, []); // empty dependency array → runs once on mount
+    fetchProducts();
+  }, []);
 
-  if (loading) return <h2>Loading products...</h2>;
+  if (loading) return <h2 className="loading">Loading products...</h2>;
 
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+    <div className="products-container">
       {productsList.map((product) => (
-        <div
-          key={product.id}
-          style={{
-            border: '1px solid #ccc',
-            padding: '10px',
-            width: '200px',
-            textAlign: 'center',
-          }}
-        >
+        <div className="product-card" key={product.id}>
           <img
             src={product.image}
             alt={product.title}
-            style={{ width: '150px', height: '150px', objectFit: 'contain' }}
+            className="product-image"
           />
-          <h3 style={{ fontSize: '16px', margin: '10px 0' }}>
-            {product.title}
-          </h3>
-          <p style={{ fontWeight: 'bold' }}>₹ {product.price}</p>
-          <button onClick={() => goToDetails(product.id)}>View Details</button>
+
+          <h3 className="product-title">{product.title}</h3>
+
+          <p className="product-price">₹ {product.price}</p>
+
+          <button onClick={() => goToDetails(product.id)}>
+            View Details
+          </button>
         </div>
       ))}
     </div>

@@ -3,11 +3,17 @@ import { Link } from 'react-router-dom';
 
 export default function Home() {
   return (
-    <div>
-      <h1>Home Page</h1>
-      <p>Welcome to our store!</p>
+    <div className="home simple-home">
+      <h1>Welcome to ShopEase</h1>
+
+      <p className="home-tagline">
+        Quality products. Simple shopping.
+      </p>
+
       <Link to="/products">
-        <button>Go to Products</button>
+        <button className="primary-btn">
+          View Products
+        </button>
       </Link>
     </div>
   );
