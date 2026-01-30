@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 
 // Create the context
 export const CartContext = createContext();
@@ -14,6 +14,9 @@ export default function CartContextProvider({ children }) {
     setcart(prev => [...prev, product]);
     console.log("Product added to cart:", product);
   };
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
   
 
   return (

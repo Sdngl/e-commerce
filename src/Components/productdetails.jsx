@@ -8,7 +8,7 @@ export default function ProductDetails() {
   const { id } = useParams();
   const location = useLocation();
   const [product, setProduct] = useState(location.state?.product || null);
-  const{addtocart, cart}=React.useContext(CartContext);
+  const{addToCart, cart}=React.useContext(CartContext);
 
   useEffect(() => {
     if (!product) {
@@ -44,7 +44,7 @@ export default function ProductDetails() {
       <p className="product-category">
         Category: {product.category}
       </p>
-      <button onClick={() => addtocart(product)}>Add to Cart</button>
+      <button onClick={() => addToCart(product)}>Add to Cart</button>
       <br></br>
       <span> Item added to the cart is ${cart.length}</span>
     </div>
