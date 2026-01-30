@@ -7,30 +7,10 @@
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #f9fafb;      /* light neutral background */
-    color: #111827;                 /* near-black text */
-}
-
-/* ===== Navbar ===== */
-.navbar {
-    width: 100%;
-    padding: 16px 32px;
-    background-color: #000000;      /* black navbar */
-    color: #ffffff;                 /* text in navbar white */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.navbar a {
-    color: #ffffff;                 /* navbar links white */
-    text-decoration: none;
-    margin-left: 16px;
-    font-weight: 500;
-}
-
-.navbar a:hover {
-    color: #d1d5db;                 /* light gray on hover */
+    background-color: #f9fafb;
+    /* light neutral background */
+    color: #111827;
+    /* near-black text */
 }
 
 /* ===== Home Page ===== */
@@ -60,7 +40,8 @@ body {
     padding: 12px 26px;
     font-size: 16px;
     border: none;
-    background-color: #000000;      /* black primary */
+    background-color: #000000;
+    /* black primary */
     color: #ffffff;
     border-radius: 6px;
     cursor: pointer;
@@ -68,7 +49,8 @@ body {
 }
 
 .home button:hover {
-    background-color: #1f2937;      /* dark gray hover */
+    background-color: #1f2937;
+    /* dark gray hover */
     transform: translateY(-1px);
 }
 
@@ -123,7 +105,7 @@ body {
 .product-price {
     font-weight: bold;
     font-size: 16px;
-    color: black;        /* changed to white */
+    color: black;
     margin-bottom: 16px;
 }
 
@@ -132,7 +114,8 @@ body {
     padding: 10px 14px;
     font-size: 14px;
     border: none;
-    background-color: #000000;      /* black CTA */
+    background-color: #000000;
+    /* black CTA */
     color: #ffffff;
     border-radius: 6px;
     cursor: pointer;

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { CartContext } from '../Context/cartcontext';
+
 
 export default function ProductDetails() {
   const { id } = useParams();
   const location = useLocation();
   const [product, setProduct] = useState(location.state?.product || null);
+  const{addtocart, cart}=React.useContext(CartContext);
 
   useEffect(() => {
     if (!product) {
@@ -41,6 +44,9 @@ export default function ProductDetails() {
       <p className="product-category">
         Category: {product.category}
       </p>
+      <button onClick={() => addtocart(product)}>Add to Cart</button>
+      <br></br>
+      <span> Item added to the cart is ${cart.length}</span>
     </div>
   );
 }

@@ -1,0 +1,94 @@
+/* ===== Navbar.css ===== */
+
+.navbar {
+    position: sticky;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #111827;
+    /* dark background */
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    
+}
+
+/* ===== Left: Brand ===== */
+.navbar-left .brand {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+}
+
+/* ===== Center: Navigation Links ===== */
+.navbar-center a {
+    margin: 0 15px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.2s;
+}
+
+.navbar-center a:hover {
+    color: #f59e0b;
+    /* amber hover color */
+}
+
+/* ===== Right: Buttons ===== */
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Login button */
+.login-button {
+    background-color: #f59e0b;
+    /* amber */
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    color: #111827;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.login-button:hover {
+    background-color: #d97706;
+    /* darker amber */
+}
+
+/* Favourite & Cart buttons */
+.favourite-button,
+.cart-button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: #1f2937;
+    /* dark gray button */
+    padding: 6px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.favourite-button:hover,
+.cart-button:hover {
+    background-color: #374151;
+    /* slightly lighter gray */
+}
+
+/* Add icons using pseudo-elements */
+.favourite-button::before {
+    content: "❤️";
+    /* heart icon */
+}
+
+.cart-button::before {
+    content: "🛒";
+    /* cart icon */
+}

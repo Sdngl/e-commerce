@@ -4,14 +4,13 @@ import Home from './Components/home';
 import Products from './Components/products';
 import ProductDetails from './Components/productdetails';
 import './App.css';
+import { CartContext } from './Context/cartcontext';
 
 function App() {
   return (
     <div>
       {/* Optional navigation */}
-      <nav className='navbar'>
-        <Link to="/">Home</Link> | <Link to="/products">Products</Link>
-      </nav>
+      
 
       <Routes>
         <Route path="/" element={<Home />} /> 
