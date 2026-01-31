@@ -1,10 +1,13 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
+import { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { CartContext } from "../Context/cartcontext";
+import "./Products.css";
 
 export default function Products() {
   const navigate = useNavigate();
+  const { addToCart } = useContext(CartContext);
+
   const [productsList, setProductsList] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -12,15 +15,10 @@ export default function Products() {
     navigate(`/products/${id}`);
   };
 
-  const addToCart = (product) => {
-    // For now, just log the product; later you can integrate cart state or API
-    console.log('Added to cart:', product);
-  };
-
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('https://fakestoreapi.com/products');
+        const response = await axios.get("https://fakestoreapi.com/products");
         setProductsList(response.data);
         setLoading(false);
       } catch (error) {
@@ -48,12 +46,13 @@ export default function Products() {
 
           <p className="product-price">₹ {product.price}</p>
 
-          {/* Buttons container */}
-          <div className="product-buttons">
-            <button className="view-details" onClick={() => goToDetails(product.id)}>
+          {/* Buttons side by side */}
+          <div className="product-actions">
+            <button onClick={() => goToDetails(product.id)}>
               View Details
             </button>
-            <button className="add-to-cart" onClick={() => addToCart(product)}>
+
+            <button onClick={() => addToCart(product)}>
               🛒 Add to Cart
             </button>
           </div>

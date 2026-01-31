@@ -5,13 +5,14 @@ import Products from './Components/products';
 import ProductDetails from './Components/productdetails';
 import './App.css';
 import { CartContext } from './Context/cartcontext';
+import Navbar from './Components/navbar';
 
 function App() {
   return (
     <div>
       {/* Optional navigation */}
       
-
+<navbar/>
       <Routes>
         <Route path="/" element={<Home />} /> 
         <Route path="/products" element={<Products />} />
