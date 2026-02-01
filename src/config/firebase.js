@@ -1,13 +1,14 @@
-// Import the functions you need from the SDKs you need
+// Import Firebase core
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Import Firebase services
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getAnalytics, isSupported } from "firebase/analytics";
+
+// Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCUBF1w27rA14QfGTt4GJgTmJIZULpzQTg",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: "e-commerce-6a435.firebaseapp.com",
   projectId: "e-commerce-6a435",
   storageBucket: "e-commerce-6a435.firebasestorage.app",
@@ -18,4 +19,21 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+
+// Initialize core services
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+
+// ✅ Safe analytics init
+export let analytics = null;
+
+if (typeof window !== "undefined") {
+  isSupported().then((yes) => {
+    if (yes) {
+      analytics = getAnalytics(app);
+    }
+  });
+}
+
+// Optional default export
+export default app;
