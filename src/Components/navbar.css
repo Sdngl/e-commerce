@@ -90,5 +90,6 @@
 
 .cart-button::before {
     content: "🛒";
+    color:white;
     /* cart icon */
 }
