@@ -1,10 +1,11 @@
 // Components/Login.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { 
   signInWithEmailAndPassword, 
   GoogleAuthProvider, 
-  signInWithPopup 
+  signInWithRedirect, 
+  getRedirectResult 
 } from "firebase/auth";
 import { auth, db } from "../config/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
@@ -19,12 +20,41 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // -------- Handle redirect result (Google login) -----------
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then(async (result) => {
+        if (result) {
+          const user = result.user;
+
+          // Save user in Firestore if new
+          const userRef = doc(db, "users", user.uid);
+          const userSnap = await getDoc(userRef);
+
+          if (!userSnap.exists()) {
+            await setDoc(userRef, {
+              uid: user.uid,
+              name: user.displayName,
+              email: user.email,
+              authProvider: "google",
+              createdAt: new Date(),
+            });
+          }
+
+          navigate("/home");
+        }
+      })
+      .catch((error) => {
+        console.error("Google login redirect failed:", error.code, error.message);
+        alert("Google login failed: " + error.message);
+      });
+  }, [navigate]);
+
   // -------- Email/Password Login -----------
   const handleLogin = async () => {
     const trimmedEmail = email.trim();
     const trimmedPassword = password;
 
-    // Basic validation
     if (!trimmedEmail || !trimmedPassword) {
       alert("Please fill all fields");
       return;
@@ -36,7 +66,6 @@ export default function Login() {
     }
 
     try {
-      // Sign in with Firebase Auth
       const userCredential = await signInWithEmailAndPassword(
         auth,
         trimmedEmail,
@@ -44,18 +73,15 @@ export default function Login() {
       );
       const user = userCredential.user;
 
-      // Optional: fetch user data from Firestore
       const userRef = doc(db, "users", user.uid);
       const userSnap = await getDoc(userRef);
       if (userSnap.exists()) {
         console.log("User data:", userSnap.data());
       }
 
-      navigate("/home"); // redirect after login
+      navigate("/home");
     } catch (error) {
       console.error(error.code, error.message);
-
-      // Friendly error messages
       switch (error.code) {
         case "auth/invalid-email":
           alert("Invalid email format");
@@ -72,29 +98,12 @@ export default function Login() {
     }
   };
 
-  // -------- Google Login -----------
+  // -------- Google Login (Redirect) -----------
   const handleGoogleLogin = async () => {
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
-
-      // Save user in Firestore if new
-      const userRef = doc(db, "users", user.uid);
-      const userSnap = await getDoc(userRef);
-
-      if (!userSnap.exists()) {
-        await setDoc(userRef, {
-          uid: user.uid,
-          name: user.displayName,
-          email: user.email,
-          authProvider: "google",
-          createdAt: new Date(),
-        });
-      }
-
-      navigate("/home");
+      await signInWithRedirect(auth, googleProvider);
     } catch (error) {
-      console.error(error.code, error.message);
+      console.error("Google login failed:", error.code, error.message);
       alert("Google login failed: " + error.message);
     }
   };
