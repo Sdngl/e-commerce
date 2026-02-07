@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import "./Navbar.css";
+import "./navbar.css";
 import { CartContext } from '../Context/cartcontext';
 
 export default function Navbar() {
-    const{ cart } = useContext(CartContext);
-    
+  const { cart } = useContext(CartContext);
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  
   return (
     <nav className="navbar">
       {/* Left: Brand */}
@@ -18,18 +19,19 @@ export default function Navbar() {
       {/* Middle: Navigation Links */}
       <div className="navbar-center">
         <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
         <Link to="/products">Products</Link>
+        <Link to="/about">About</Link>
       </div>
 
       {/* Right: Login, Favourite, Cart */}
       <div className="navbar-right">
-        <button className="login-button">Login</button>
+        <Link to="/login" className="login-button">Login</Link>
         <Link to="/favourites" className="favourite-button">
           Favourite
         </Link>
         <Link to="/cart" className="cart-button">
-          Cart-{cart.length}
+          Cart
+          {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
         </Link>
       </div>
     </nav>

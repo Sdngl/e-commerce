@@ -1,52 +1,88 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { CartContext } from '../Context/cartcontext';
+import './products.css';
 
 
 export default function ProductDetails() {
   const { id } = useParams();
-  const location = useLocation();
-  const [product, setProduct] = useState(location.state?.product || null);
-  const{addToCart, cart}=React.useContext(CartContext);
+  const navigate = useNavigate();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const { addToCart, cart } = React.useContext(CartContext);
 
   useEffect(() => {
-    if (!product) {
-      const fetchProduct = async () => {
-        try {
-          const response = await axios.get(
-            `https://fakestoreapi.com/products/${id}`
-          );
-          setProduct(response.data);
-        } catch (error) {
-          console.error('Failed to fetch product:', error);
-        }
-      };
+    const fetchProduct = async () => {
+      try {
+        const response = await axios.get(
+          `https://fakestoreapi.com/products/${id}`
+        );
+        setProduct(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Failed to fetch product:', error);
+        setLoading(false);
+      }
+    };
 
-      fetchProduct();
-    }
-  }, [id, product]);
+    fetchProduct();
+  }, [id]);
 
-  if (!product) return <h2 className="loading">Loading...</h2>;
+  if (loading) {
+    return (
+      <div className="loading">
+        <p>Loading product details...</p>
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className="loading">
+        <p>Product not found</p>
+        <button onClick={() => navigate('/products')}>Back to Products</button>
+      </div>
+    );
+  }
 
   return (
     <div className="product-details">
-      <h1>Product Details</h1>
-
-      <img src={product.image} alt={product.title} />
-
-      <h2>{product.title}</h2>
-
-      <p><strong>Price:</strong> ₹ {product.price}</p>
-
-      <p>{product.description}</p>
-
-      <p className="product-category">
-        Category: {product.category}
-      </p>
-      <button onClick={() => addToCart(product)}>Add to Cart</button>
-      <br></br>
-      <span> Item added to the cart is ${cart.length}</span>
+      <div className="product-details-image">
+        <img src={product.image} alt={product.title} />
+      </div>
+      
+      <div className="product-details-info">
+        <span className="category">{product.category}</span>
+        <h1>{product.title}</h1>
+        <p className="price">₹ {product.price.toFixed(2)}</p>
+        
+        <div className="product-rating">
+          <span className="stars">★★★★★</span>
+          <span className="rating-count">(4.5)</span>
+        </div>
+        
+        <p className="description">{product.description}</p>
+        
+        <div className="product-details-actions">
+          <button 
+            className="add-cart-btn" 
+            onClick={() => {
+              addToCart(product);
+              alert('Added to cart!');
+            }}
+          >
+            Add to Cart
+          </button>
+          <button className="buy-btn" onClick={() => alert('Buy now coming soon!')}>
+            Buy Now
+          </button>
+        </div>
+        
+        <p style={{ marginTop: '16px', fontSize: '0.85rem', color: '#94a3b8' }}>
+          🛒 {cart.length} items in cart
+        </p>
+      </div>
     </div>
   );
 }

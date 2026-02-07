@@ -5,22 +5,25 @@ import Products from "./Components/products";
 import ProductDetails from "./Components/productdetails";
 import Login from "./Components/login";
 import Register from "./Components/register";
+import Cart from "./Components/cart";
 import "./App.css";
 
 function App() {
   return (
-    <div>
+    <div className="app-container">
       <Routes>
-        {/* Default route / goes to Login */}
+        {/* Login page (no navbar) */}
+        <Route path="/login" element={<Login />} />
         <Route path="/" element={<Login />} />
 
-        {/* Register page */}
+        {/* Register page (no navbar) */}
         <Route path="/register" element={<Register />} />
 
-        {/* Home & Products pages */}
+        {/* Pages with navbar */}
         <Route path="/home" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductDetails />} />
+        <Route path="/cart" element={<Cart />} />
 
         {/* Catch-all: redirect to login */}
         <Route path="*" element={<Navigate to="/" replace />} />
